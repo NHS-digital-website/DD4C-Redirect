@@ -6,6 +6,16 @@ terraform {
   }
 }
 
+# Default AWS region
 provider "aws" {
   region = "eu-west-2"
+}
+
+# Aditional AWS region that AWS CloudFront needs for:
+# - SSL Certificates 
+# - Edge Lambdas 
+# - etc.
+provider "aws" {
+  alias  = "us-east-1"
+  region = "us-east-1"
 }
