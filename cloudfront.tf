@@ -1,7 +1,3 @@
-locals {
-  dd4c_distribution_id = "DD4C"
-}
-
 resource "aws_cloudfront_distribution" "dd4c_distribution" {
 
   enabled = true
@@ -11,6 +7,11 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
     domain_name = split("/", aws_lambda_function_url.main_lambda_funciton_url.function_url)[2]
     origin_id   = "DD4C"
     #origin_path = "dd4c"
+
+    custom_header {
+      name  = "integrity"
+      value =  sha256(var.integrity)
+    }
 
     custom_origin_config {
       http_port              = 80
@@ -23,7 +24,7 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
   default_cache_behavior {
 
     target_origin_id       = "DD4C"
-    viewer_protocol_policy = "allow-all"
+    viewer_protocol_policy = "redirect-to-https"
 
     allowed_methods = ["GET", "HEAD", "OPTIONS"]
     cached_methods  = ["GET", "HEAD"]
@@ -46,8 +47,13 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
   }
 
   viewer_certificate {
-
-    cloudfront_default_certificate = true
+    acm_certificate_arn            = aws_acm_certificate.dd4c_certificate.arn
+    ssl_support_method             = "sni-only"
+    minimum_protocol_version       = "TLSv1.2_2021"
   }
+
+  aliases = [
+    var.dd4c_domain
+  ]
 
 }

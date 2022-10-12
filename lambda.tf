@@ -6,12 +6,11 @@ resource "aws_iam_role" "iam_for_lambda" {
   "Version": "2012-10-17",
   "Statement": [
     {
-      "Action": "sts:AssumeRole",
+      "Effect": "Allow",
       "Principal": {
         "Service": "lambda.amazonaws.com"
       },
-      "Effect": "Allow",
-      "Sid": ""
+      "Action": "sts:AssumeRole"
     }
   ]
 }
@@ -23,20 +22,17 @@ resource "aws_lambda_function" "main_lambda_funciton" {
   source_code_hash = filebase64sha256("${path.module}/dist/main.zip")
   function_name    = "main_lambda_function"
   role             = aws_iam_role.iam_for_lambda.arn
-  handler          = "main.hello"
+  handler          = "main.redirection"
   runtime          = "nodejs16.x"
+
+  environment {
+    variables = {
+      INTEGRITY_CHECK =  sha256(var.integrity)
+    }
+  }
 }
 
 resource "aws_lambda_function_url" "main_lambda_funciton_url" {
   function_name      = aws_lambda_function.main_lambda_funciton.function_name
   authorization_type = "NONE"
-}
-
-output "output_main_lambda_funciton_url" {
-  value = split("/", aws_lambda_function_url.main_lambda_funciton_url.function_url)[2]
-}
-
-output "output_main_lambda_funciton_name" {
-  value = aws_lambda_function_url.main_lambda_funciton_url.function_name
-
 }
