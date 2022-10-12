@@ -1,9 +1,7 @@
 resource "aws_cloudfront_distribution" "dd4c_distribution" {
-
   enabled = true
 
   origin {
-
     domain_name = split("/", aws_lambda_function_url.main_lambda_funciton_url.function_url)[2]
     origin_id   = "DD4C"
     #origin_path = "dd4c"
@@ -22,7 +20,6 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
   }
 
   default_cache_behavior {
-
     target_origin_id       = "DD4C"
     viewer_protocol_policy = "redirect-to-https"
 
@@ -30,7 +27,6 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
     cached_methods  = ["GET", "HEAD"]
 
     forwarded_values {
-
       query_string = false
 
       cookies {
@@ -40,7 +36,6 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
   }
 
   restrictions {
-
     geo_restriction {
       restriction_type = "none"
     }

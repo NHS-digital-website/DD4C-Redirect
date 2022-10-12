@@ -20,5 +20,8 @@ Then install Pip `sudo apt install python3-pip`. Then using Pip install [AWSume]
 
 You should now be able to do `awsume dd4c` which will prompt you for your MFA code. 
 
+# Making Changes
+Once you are happy with any JS or Terraform changes, run `terraform apply`. You will be prompted for a value for a variable name 'integrity', give it something uncommon. A hashed version of the value gets passed between CloudFront and the Lambda to check the integrity of the request. 
+
 # Good to know
 The Terraform state is held in an AWS S3 bucket named `dd4c-terraform-state`.
