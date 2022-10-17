@@ -3,5 +3,6 @@ variable "dd4c_domain" {
 }
 
 variable "integrity" {
-  type = string
+  description = "A hashed version of the value given gets passed between CloudFront and the Lambda to check the integrity of the request"
+  type        = string
 }

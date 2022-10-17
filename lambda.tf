@@ -27,7 +27,7 @@ resource "aws_lambda_function" "main_lambda_funciton" {
 
   environment {
     variables = {
-      INTEGRITY_CHECK =  sha256(var.integrity)
+      INTEGRITY_CHECK = sha256(var.integrity)
     }
   }
 }

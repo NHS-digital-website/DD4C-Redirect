@@ -1,14 +1,19 @@
 resource "aws_cloudfront_distribution" "dd4c_distribution" {
-  enabled = true
+  enabled     = true
+  price_class = "PriceClass_100"
 
   origin {
     domain_name = split("/", aws_lambda_function_url.main_lambda_funciton_url.function_url)[2]
     origin_id   = "DD4C"
-    #origin_path = "dd4c"
+
+    origin_shield {
+      enabled              = true
+      origin_shield_region = "eu-west-2"
+    }
 
     custom_header {
       name  = "integrity"
-      value =  sha256(var.integrity)
+      value = sha256(var.integrity)
     }
 
     custom_origin_config {
@@ -32,6 +37,7 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
       cookies {
         forward = "none"
       }
+      headers = ["referer"]
     }
   }
 
@@ -42,13 +48,15 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn            = aws_acm_certificate.dd4c_certificate.arn
-    ssl_support_method             = "sni-only"
-    minimum_protocol_version       = "TLSv1.2_2021"
+    acm_certificate_arn      = aws_acm_certificate.dd4c_certificate.arn
+    ssl_support_method       = "sni-only"
+    minimum_protocol_version = "TLSv1.2_2021"
   }
 
   aliases = [
     var.dd4c_domain
   ]
+
+  web_acl_id = aws_wafv2_web_acl.dd4c_waf_acl.arn
 
 }

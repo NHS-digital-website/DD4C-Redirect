@@ -13,7 +13,7 @@ provider "aws" {
 
 # Aditional AWS region that AWS CloudFront needs for:
 # - SSL Certificates 
-# - Edge Lambdas 
+# - Edge Lambdas
 # - etc.
 provider "aws" {
   alias  = "us-east-1"
