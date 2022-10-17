@@ -46,7 +46,7 @@ exports.redirection = async(event) => {
         return {
             statusCode: 403,
             headers: {
-                "Content-Type" : "text/plain; charset=UTF-8",
+                "Content-Type" : "text/plain; charset=UTF-8"
             },
             body: "forbidden"
         }
@@ -55,8 +55,7 @@ exports.redirection = async(event) => {
         return {
             statusCode: 404,
             headers: {
-                "Content-Type" : "text/html; charset=UTF-8",
-                "url": event.url
+                "Content-Type" : "text/html; charset=UTF-8"
             },
             body: html404Template
         }
