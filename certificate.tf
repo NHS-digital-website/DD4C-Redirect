@@ -1,7 +1,7 @@
 resource "aws_acm_certificate" "dd4c_certificate" {
+  provider          = aws.us-east-1
   domain_name       = var.dd4c_domain
   validation_method = "DNS"
-  provider = aws.us-east-1
 }
 
 output "aws_acm_certificate_validation_cname_record_name" {
