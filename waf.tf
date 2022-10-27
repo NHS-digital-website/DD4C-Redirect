@@ -51,6 +51,6 @@ resource "aws_wafv2_regex_pattern_set" "domain_pattern" {
   scope    = "CLOUDFRONT"
 
   regular_expression {
-    regex_string = "^dd4c\\.digital\\.nhs\\.uk$"
+    regex_string = "^dd4c(?:-test)?\\.digital\\.nhs\\.uk$"
   }
 }
