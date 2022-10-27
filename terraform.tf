@@ -9,6 +9,11 @@ terraform {
 # Default AWS region
 provider "aws" {
   region = "eu-west-2"
+  default_tags {
+    tags = {
+      details = var.aws_details_tag
+    }
+  }
 }
 
 # Aditional AWS region that AWS CloudFront needs for:
@@ -18,4 +23,9 @@ provider "aws" {
 provider "aws" {
   alias  = "us-east-1"
   region = "us-east-1"
+  default_tags {
+    tags = {
+      Details = var.aws_details_tag
+    }
+  }
 }

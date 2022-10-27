@@ -48,13 +48,14 @@ resource "aws_cloudfront_distribution" "dd4c_distribution" {
   }
 
   viewer_certificate {
-    acm_certificate_arn      = aws_acm_certificate.dd4c_certificate.arn
+    acm_certificate_arn      = aws_acm_certificate.dd4c_service_certificate.arn
     ssl_support_method       = "sni-only"
     minimum_protocol_version = "TLSv1.2_2021"
   }
 
   aliases = [
-    var.dd4c_domain
+    var.dd4c_domain,
+    var.dd4c_test_domain
   ]
 
   web_acl_id = aws_wafv2_web_acl.dd4c_waf_acl.arn
