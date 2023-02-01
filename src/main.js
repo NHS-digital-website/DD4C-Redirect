@@ -1,4 +1,4 @@
-const newLocation = "https://hscic.kahootz.com/connect.ti/t_c_home/view?objectId=777732"
+const newLocation = "https://nhsengland.kahootz.com/t_c_home/view?objectId=777732"
 const htmlTemplate = `
 <html>
     <head>
